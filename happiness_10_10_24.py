@@ -33,10 +33,21 @@ Logo_internet = Image.open('Internet.jpeg')
 bonheur= Image.open('bonheur.gif')
 bandeau= Image.open('bandeau.jpeg')
 
+
+# Charger les fichiers CSV depuis GitHub
+df = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/world-happiness-report.csv")
+df_2021 = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/world-happiness-report-2021.csv")
+df_global = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/df_global.csv")
+
+# Afficher les premières lignes pour vérifier
+print(df.head())
+print(df_2021.head())
+print(df_global.head())
+
 #2 - Daframe
-df=pd.read_csv("world-happiness-report.csv")
-df_2021=pd.read_csv("world-happiness-report-2021.csv")
-df_global=pd.read_csv("df_global.csv")
+#df=pd.read_csv("world-happiness-report.csv")
+#df_2021=pd.read_csv("world-happiness-report-2021.csv")
+#df_global=pd.read_csv("df_global.csv")
 
 # **************************************************************Création des pages et des titres************************
 pages=["Introduction","Exploration", "DataVisualization", "Pré Processing", "Modélisation", "Conclusion"]
