@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 print(os.getcwd())  # Affiche le répertoire actuel
-streamlit run happiness_10_10_24
 
 
 # CSS pour réduire l'espace en haut de la page
