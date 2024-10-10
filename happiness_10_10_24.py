@@ -9,7 +9,10 @@ import plotly.subplots as sp
 import plotly.graph_objects as go
 import base64
 from PIL import Image
-
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # CSS pour réduire l'espace en haut de la page
