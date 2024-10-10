@@ -13,6 +13,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+print(os.getcwd())  # Affiche le répertoire actuel
 
 
 # CSS pour réduire l'espace en haut de la page
