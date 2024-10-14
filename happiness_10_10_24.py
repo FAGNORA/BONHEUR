@@ -9,12 +9,7 @@ import plotly.subplots as sp
 import plotly.graph_objects as go
 import base64
 from PIL import Image
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import os
-print(os.getcwd())  # Affiche le répertoire actuel
 
 
 # CSS pour réduire l'espace en haut de la page
@@ -38,22 +33,15 @@ Logo_internet = Image.open('Internet.jpeg')
 bonheur= Image.open('bonheur.gif')
 bandeau= Image.open('bandeau.jpeg')
 
+#2 - Daframe
+#df=pd.read_csv("world-happiness-report.csv")
+#df_2021=pd.read_csv("world-happiness-report-2021.csv")
 
+#df_global = pd.read_csv("C:/Users/fatim/Documents/df_global.csv")
 # Charger les fichiers CSV depuis GitHub
 df = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/world-happiness-report.csv")
 df_2021 = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/world-happiness-report-2021.csv")
 df_global = pd.read_csv("https://raw.githubusercontent.com/FAGNORA/Hapiness_World_Report/main/df_global.csv")
-
-# Afficher les premières lignes pour vérifier
-print(df.head())
-print(df_2021.head())
-print(df_global.head())
-
-#2 - Daframe
-#df=pd.read_csv("world-happiness-report.csv")
-#df_2021=pd.read_csv("world-happiness-report-2021.csv")
-#df_global=pd.read_csv("df_global.csv")
-
 # **************************************************************Création des pages et des titres************************
 pages=["Introduction","Exploration", "DataVisualization", "Pré Processing", "Modélisation", "Conclusion"]
 #***************************************************************** Sidebar***********************************************
@@ -102,10 +90,7 @@ st.markdown("""
 text = """
 <span style="color:purple;">**Promotion Data-Analyst - Février 2024**<span>
 
-Fatima Adem Garcia  
-Olivier Ngossa  
-Pauline Apeke  
-Philippe Bedouet"""
+"""
 
 # Injection de CSS pour créer un encadré autour du texte
 st.sidebar.markdown(
@@ -609,7 +594,14 @@ if page == pages[3] :
 # 
 # ......................................................................................   Début de la page Modélisation   ...........................................
 
-if page == pages[4] : 
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+import os
+import base64
+
+# Vérification de la page
+if page == pages[4]: 
     st.markdown(
         f"""
         <div style="
@@ -618,57 +610,52 @@ if page == pages[4] :
         border-radius: 50px;
         background-color: #f5b74c;
         text-align:center;">
-        <h3 style="color:purple;font-size:30px">Analyse World Hapiness Report de 2005 à 2021</h3>
-    """, unsafe_allow_html=True)
-    st.markdown('<h3 style="color:purple;"> </h3>', unsafe_allow_html=True)
-
-
-     # Fonction pour générer un lien de téléchargement du fichier CSV
+        <h3 style="color:purple;font-size:30px">Analyse World Happiness Report de 2005 à 2021</h3>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Fonction pour générer un lien de téléchargement du fichier CSV
     def get_download_link(file_path):
-         with open(file_path, 'rb') as f:
-             data = f.read()
-         b64 = base64.b64encode(data).decode()
-         href = f'<a href="data:file/csv;base64,{b64}" download="{file_path}">Télécharger le fichier CSV</a>'
-         return href
+        with open(file_path, 'rb') as f:
+            data = f.read()
+        b64 = base64.b64encode(data).decode()
+        href = f'<a href="data:file/csv;base64,{b64}" download="{file_path}">Télécharger le fichier CSV</a>'
+        return href
 
-     # Titre principal pour le volet modélisation
+    # Titre principal pour le volet modélisation
     st.markdown('<h3 style="color:purple;">Les modèles, Résultats et Analyse</h3>', unsafe_allow_html=True)
 
-     # Téléchargement du fichier CSV contenant les résultats des modèles
-    uploaded_file = st.file_uploader("Téléversez votre fichier CSV avec les résultats des modèles", type="csv")
-    results_df =1
-    if uploaded_file is not None:
-       # Charger les données à partir de l'objet de fichier
-       results_df = pd.read_csv(uploaded_file)
-# Afficher un aperçu des données
-    st.markdown('<h3 style="color:purple;">Aperçu des données des métriques</h3>', unsafe_allow_html=True)
-    st.write(results_df.head())
+    # Spécifiez le chemin vers votre fichier CSV
+    file_path = "C:/Users/fatim/Documents/results_df.csv"  # Assurez-vous que le chemin est correct et que le fichier existe
+
+    # Vérifiez si le fichier existe
+    if os.path.exists(file_path):
+        # Charger les données à partir du fichier CSV
+        results_df = pd.read_csv(file_path)
+
+        # Afficher un aperçu des données
+        st.markdown('<h3 style="color:purple;">Aperçu des données des métriques</h3>', unsafe_allow_html=True)
+        st.write(results_df.head())
+    else:
+        st.error(f"Le fichier n'a pas été trouvé à l'emplacement spécifié : {file_path}")
 
     # Explication des modèles
     st.markdown('<h3 style="color:purple;">Choix du modèle et optimisation</h3>', unsafe_allow_html=True)
-
     st.markdown('<h5 style="color:Orange;">Gradient Boosting Regressor:</h5>', unsafe_allow_html=True)
-    st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
+    st.markdown("""<p style="text-align: justify;font-size:15px;">
         Le Gradient Boosting est souvent performant pour les problèmes de régression grâce à sa capacité à corriger les erreurs des modèles précédents en construisant des modèles séquentiels.
-        </p>
-    """, unsafe_allow_html=True)
+    </p>""", unsafe_allow_html=True)
 
     st.markdown('<h5 style="color:Orange;">Random Forest Regressor :</h5>', unsafe_allow_html=True)
-    st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
+    st.markdown("""<p style="text-align: justify;font-size:15px;">
         Il est robuste aux sur-ajustements (overfitting) et fonctionne bien avec une variété de types de données et de distributions.
-        </p>
-    """, unsafe_allow_html=True)
+    </p>""", unsafe_allow_html=True)
 
     st.markdown('<h5 style="color:Red;text-align:center;">La valeur cible est Le Life Ladder</h5>', unsafe_allow_html=True)
-
     st.markdown('<h5 style="color:Orange;">Techniques d\'optimisation des paramètres :</h5>', unsafe_allow_html=True)
-    st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
+    st.markdown("""<p style="text-align: justify;font-size:15px;">
         Contrairement au GridSearch, qui effectue une recherche exhaustive sur une grille d’hyperparamètres, le GridSearchCV utilise une validation croisée intégrée, offrant une méthode plus rigoureuse pour optimiser les hyperparamètres dans notre contexte.
-        </p>
-    """, unsafe_allow_html=True)
+    </p>""", unsafe_allow_html=True)
 
     # Filtrer les résultats pour chaque modèle
     rf_results = results_df[results_df['Model'] == 'Random Forest']
@@ -743,8 +730,7 @@ if page == pages[4] :
 
     # Conclusion des métriques
     st.markdown('<h3 style="color:Purple;">Analyse des métriques avec toutes les variables</h3>', unsafe_allow_html=True)
-    st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
+    st.markdown("""<p style="text-align: justify;font-size:15px;">
         Performance prédictive :
         Random Forest semble avoir une légère supériorité par rapport au Gradient Boosting en termes de MSE,
         MAE, RMSE, et R², il est légèrement plus performant pour cette tâche spécifique de régression.
@@ -754,124 +740,20 @@ if page == pages[4] :
         Choix du modèle :
         Si la précision prédictive est la priorité et que le temps de calcul n'est pas une contrainte majeure, 
         le Random Forest est à prioriser.
-        </p>
-    """, unsafe_allow_html=True)
+    </p>""", unsafe_allow_html=True)
 
     # Données des métriques sans certaines variables
     st.markdown('<h3 style="color:Purple;">Analyse des erreurs des modèles sans les variables Country Name et Regional Indicator</h3>', unsafe_allow_html=True)
-    st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
+    st.markdown("""<p style="text-align: justify;font-size:15px;">
         Pour évaluer l'impact de l'optimisation des modèles, nous avons testé les modèles à la fois 
         avec et sans les variables "Country name" et "Regional indicator". 
         L'exclusion des deux variables a impacté les résultats des métriques : la MSE est passée de 0.121
-        à 0.213, la MAE a également augmenté, de 0.261 à 0.348, et le R² a diminué, indiquant que la variance 
-        des données est réduite lorsque ces variables sont exclues. La RMSE a aussi augmenté de 0.348 à 0.461, 
-        et pour le Gradient Boosting, nous observons également une dégradation des métriques.
-        </p>
-    """, unsafe_allow_html=True)
+        à 0.213, la MAE a également augmenté, de 0.261 à 0.348, et le R² a diminué""")
 
-    # Créer un DataFrame avec les données
-    data = {
-        'Modèle': ['Random Forest', 'Random Forest', 'Gradient Boosting', 'Gradient Boosting'],
-        'Variables Incluses': ['Avec Variables', 'Sans Variables', 'Avec Variables', 'Sans Variables'],
-        'Meilleurs Paramètres': [
-            "{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 200}",
-            "{'max_depth': 20, 'min_samples_split': 2, 'n_estimators': 200}",
-            "{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}",
-            "{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 100}"
-        ],
-        'MSE': [1-0.121, 1-0.213, 1-0.130, 1-0.243],
-        'MAE': [1-0.261, 1-0.348,1-0.268,1-0.375],
-        'R2': [0.897, 0.819, 0.890, 0.794],
-        'RMSE': [1-0.348, 1-0.461, 1-0.360, 1-0.493],
-        'Temps de Grid Search': [207.57, 77.46, 36.90, 23.42]
-    }
-
-    # Convertir les données en DataFrame
-    df = pd.DataFrame(data)
-
-    # Fonction pour créer les graphiques Plotly
-    def create_charts():
-        # Création de la figure pour les métriques
-        fig = go.Figure()
-        metrics = ['MSE', 'MAE', 'R2', 'RMSE']
-        for metric in metrics:
-            for model in df['Modèle'].unique():
-                subset = df[df['Modèle'] == model]
-                fig.add_trace(go.Bar(
-                    x=subset['Variables Incluses'] + ' (' + model + ')',
-                    y=subset[metric],
-                    name=metric,
-                    hoverinfo='text',
-                    text=subset[metric].apply(lambda x: f'{x:.3f}'),
-                    textposition='outside'
-                ))
-
-        fig.update_layout(
-            title='Comparaison des Métriques',
-            barmode='group',
-            xaxis_title='Variables Incluses et Modèle',
-            yaxis_title='Valeur',
-            legend_title='Métriques',
-            width=1000,
-            height=700,
-            title_font_size=20,
-            xaxis_title_font_size=16,
-            yaxis_title_font_size=16,
-            legend_font_size=14
-        )
-
-    # Création de la figure pour le tableau des paramètres et du temps de Grid Search
-        fig2 = go.Figure()
-
-    # Ajout du tableau dans la figure
-        fig2.add_trace(
-            go.Table(
-                header=dict(
-                    values=["Modèle", "Variables Incluses", "Meilleurs Paramètres", "Temps de Grid Search (s)"],
-                    fill_color='lightgray',
-                    align='left',
-                    font=dict(size=12, color='black'),
-                    height=30
-                ),
-                cells=dict(
-                    values=[
-                        df['Modèle'],  # Colonne des modèles
-                        df['Variables Incluses'],  # Colonne des variables incluses
-                        df['Meilleurs Paramètres'],  # Colonne des meilleurs paramètres
-                        df['Temps de Grid Search'],  # Colonne des temps de grid search
-                    ],
-                    fill_color='white',
-                    align='left',
-                    font=dict(size=12, color='black'),
-                    height=25
-                )
-            )
-        )
-
-
-        #fig2 = go.Figure()
-        # Mise à jour de la mise en page du tableau
-        fig2.update_layout(
-        height=600,
-        title='Tableau des Paramètres et Temps de Grid Search',
-        title_font_size=24
-        )
-        return fig, fig2
-
-    # Afficher les graphiques dans Streamlit
-    st.title('Analyse des Modèles')
-
-    # Créer les graphiques
-    fig1, fig2 = create_charts()
-
-    # Afficher les graphiques
-    st.plotly_chart(fig1, use_container_width=True)
-    st.plotly_chart(fig2, use_container_width=True)
 #  ....................................................................................  Fin de la page Modélisation  ..........................................
 #                                                                                        Debut de la CONCLUSION
 if page == pages[5] : 
-        st.markdown(
+    st.markdown(
         f"""
         <div style="
         border: 2px solid #b80691; 
@@ -879,38 +761,38 @@ if page == pages[5] :
         border-radius: 50px;
         background-color: #f5b74c;
         text-align:center;">
-        <h3 style="color:purple;font-size:30px">Analyse World Hapiness Report de 2005 à 2021</h3>
-         """, unsafe_allow_html=True)
-            
-        st.markdown('<h3 style="color:purple;"> </h3>', unsafe_allow_html=True)
+        <h3 style="color:purple;font-size:30px">Conclusion</h3>
 
-        # Conclusion
-        st.markdown('<h3 style="color:purple;">Peut-on prédire le bonheur ?</h3>', unsafe_allow_html=True)
-        st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
-        L'exclusion des variables 'Country Name' et 'Regional Indicator' a conduit à une dégradation 
-        des performances des deux modèles, suggérant que ces variables apportaient des informations 
-        importantes pour prédire la variable cible. Il est donc recommandé de conserver les variables 
-        'Country name' et 'Regional indicator' dans les modèles, sauf si une simplification est impérative 
-        pour d'autres raisons (comme la réduction du temps de calcul ou la simplification du modèle).
-        </p>
+    """, unsafe_allow_html=True)
+    st.markdown('<h3 style="color:purple;"> </h3>', unsafe_allow_html=True)
+
+
+    # Conclusion
+    st.markdown('<h3 style="color:purple;">Peut-on prédire le bonheur ?</h3>', unsafe_allow_html=True)
+    st.markdown("""
+    <p style="text-align: justify; font-size:15px;">
+    L'exclusion des variables 'Country Name' et 'Regional Indicator' a conduit à une dégradation 
+    des performances des deux modèles, suggérant que ces variables apportaient des informations 
+    importantes pour prédire la variable cible. Il est donc recommandé de conserver les variables 
+    'Country name' et 'Regional indicator' dans les modèles, sauf si une simplification est impérative 
+    pour d'autres raisons (comme la réduction du temps de calcul ou la simplification du modèle).
+    </p>
     """, unsafe_allow_html=True)
 
-        st.markdown('<h3 style="color:purple;">Pour conclure sur cette partie</h3>', unsafe_allow_html=True)
-        st.markdown("""
-        <p style="text-align: justify;font-size:15px;">
-        En conclusion, bien que l'exclusion de variables puisse parfois simplifier le modèle, dans ce 
-        cas particulier, ces variables semblent contenir des informations cruciales pour la 
-        prédiction du bonheur. Il serait judicieux d'explorer davantage pourquoi ces variables sont 
-        importantes et de considérer des techniques alternatives pour gérer leur impact sur le modèle tout 
-        en maximisant la précision des prédictions. En ce qui concerne les métriques, la RMSE est recommandée 
-        pour évaluer la précision des prédictions du bonheur. Le Modèle le Plus Performant est le Random Forest, 
-          surtout lorsque les variables Country name et Regional indicator sont incluses. Il a des scores de 
-          MSE, MAE, R², et RMSE meilleurs comparés à Gradient Boosting.
-          </p>
-          """, unsafe_allow_html=True)
-        
-        new_image = bonheur.resize((1500, 1500))
-        st.image(new_image)
+    st.markdown('<h3 style="color:purple;">Pour conclure sur cette partie</h3>', unsafe_allow_html=True)
+    st.markdown("""
+    <p style="text-align: justify; font-size:15px;">
+    En conclusion, bien que l'exclusion de variables puisse parfois simplifier le modèle, dans ce 
+    cas particulier, ces variables semblent contenir des informations cruciales pour la 
+    prédiction du bonheur. Il serait judicieux d'explorer davantage pourquoi ces variables sont 
+    importantes et de considérer des techniques alternatives pour gérer leur impact sur le modèle tout 
+    en maximisant la précision des prédictions. En ce qui concerne les métriques, la RMSE est recommandée 
+    pour évaluer la précision des prédictions du bonheur. Le Modèle le Plus Performant est le Random Forest, 
+    surtout lorsque les variables 'Country name' et 'Regional indicator' sont incluses. Il a des scores de 
+    MSE, MAE, R², et RMSE meilleurs comparés à Gradient Boosting.
+    </p>
+    """, unsafe_allow_html=True)
 
-
+    # Affichage de l'image
+    new_image = bonheur.resize((1500, 1500))
+    st.image(new_image, caption='Analyse du Bonheur', use_column_width=True)
